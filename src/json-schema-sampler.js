@@ -8,10 +8,10 @@ const defaults = {
   maxSampleDepth: 15,
 };
 
-export function sample(schema, options, spec) {
+export function sample(schema, options) {
   let opts = Object.assign({}, defaults, options);
   clearCache();
-  return traverse(schema, opts, spec).value;
+  return traverse(schema, opts).value;
 };
 
 export function _registerSampler(type, sampler) {
