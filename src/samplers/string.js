@@ -77,7 +77,7 @@ const stringFormats = {
   'default': defaultSample
 };
 
-export function sampleString(schema, options, spec, context) {
+export function sampleString(schema, options, doc, context) {
   let format = schema.format || 'default';
   let sampler = stringFormats[format] || defaultSample;
   let propertyName = context && context.propertyName;
