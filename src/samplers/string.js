@@ -21,7 +21,7 @@ function passwordSample(min, max) {
   return res;
 }
 
-function commonDateTimeSample(min, max, omitTime, omitDate) {
+function commonDateTimeSample({ min, max, omitTime, omitDate }) {
   let res = toRFCDateTime(new Date('2019-08-24T14:15:22.123Z'), omitTime, omitDate, false);
   if (res.length < min) {
     console.warn(`Using minLength = ${min} is incorrect with format "date-time"`);
@@ -33,15 +33,15 @@ function commonDateTimeSample(min, max, omitTime, omitDate) {
 }
 
 function dateTimeSample(min, max) {
-  return commonDateTimeSample(min, max, false, false);
+  return commonDateTimeSample({ min, max, omitTime: false, omitDate: false });
 }
 
 function dateSample(min, max) {
-  return commonDateTimeSample(min, max, true, false);
+  return commonDateTimeSample({ min, max, omitTime: true, omitDate: false });
 }
 
 function timeSample(min, max) {
-  return commonDateTimeSample(min, max, false, true).slice(1);
+  return commonDateTimeSample({ min, max, omitTime: false, omitDate: true }).slice(1);
 }
 
 function defaultSample(min, max) {
