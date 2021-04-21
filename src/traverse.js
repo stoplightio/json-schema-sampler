@@ -13,7 +13,7 @@ export function clearCache() {
   seenSchemasStack = [];
 }
 
-export function traverse(schema, options, context) {
+export function traverse(schema, options, spec, context) {
   // checking circular JS references by checking context
   // because context is passed only when traversing through nested objects happens
   if (context) {
@@ -33,13 +33,13 @@ export function traverse(schema, options, context) {
       ref = ref.substring(1);
     }
 
-    const referenced = JsonPointer.get(schema, ref);
+    const referenced = JsonPointer.get(spec, ref);
 
     let result;
 
     if ($refCache[ref] !== true) {
       $refCache[ref] = true;
-      result = traverse(referenced, options, context);
+      result = traverse(referenced, options, spec, context);
       $refCache[ref] = false;
     } else {
       const referencedType = inferType(referenced);
@@ -65,6 +65,7 @@ export function traverse(schema, options, context) {
       { ...schema, allOf: undefined },
       schema.allOf,
       options,
+      spec,
       context,
     );
   }
@@ -74,12 +75,12 @@ export function traverse(schema, options, context) {
       if (!options.quiet) console.warn('oneOf and anyOf are not supported on the same level. Skipping anyOf');
     }
     popSchemaStack(seenSchemasStack, context);
-    return traverse(schema.oneOf[0], options, context);
+    return traverse(schema.oneOf[0], options, spec, context);
   }
 
   if (schema.anyOf && schema.anyOf.length) {
     popSchemaStack(seenSchemasStack, context);
-    return traverse(schema.anyOf[0], options, context);
+    return traverse(schema.anyOf[0], options, spec, context);
   }
 
   let example = null;
@@ -102,7 +103,7 @@ export function traverse(schema, options, context) {
     }
     let sampler = _samplers[type];
     if (sampler) {
-      example = sampler(schema, options, context);
+      example = sampler(schema, options, spec, context);
     }
   }
 
