@@ -434,6 +434,22 @@ describe('Integration', function() {
     });
   });
 
+  it('if/then/else', () => {
+    schema =  {
+      type: 'object',
+      if: {properties: {foo: {type: 'string', format: 'email'}}},
+      then: {properties: {bar: {type: 'string'}}},
+      else: {properties: {baz: {type: 'number'}}},
+    };
+
+    result = JSONSchemaSampler.sample(schema);
+    expected = {
+      foo: 'user@example.com',
+      bar: 'string'
+    };
+    expect(result).to.deep.equal(expected);
+  })
+
   describe('Detection', function() {
     it('should detect autodetect types based on props', function() {
       schema = {
