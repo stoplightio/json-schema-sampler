@@ -65,6 +65,8 @@ Available options:
   Don't include `writeOnly` object properties
   - **quiet** - `boolean`
   Don't log console warning messages
+  - **maxSampleDepth** - `number`
+    Max depth sampler should traverse
 - **doc** - the whole schema where the schema is taken from. Might be useful when the `schema` passed is only a portion of the whole schema and $refs aren't resected. **doc** must not contain any external references
 
 ## Example
