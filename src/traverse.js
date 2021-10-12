@@ -42,7 +42,7 @@ export function traverse(schema, options, doc, context) {
 
     if ($refCache[ref] !== true) {
       $refCache[ref] = true;
-      result = traverse(referenced, options, doc, {...context, initTime: start});
+      result = traverse(referenced, options, doc, {...context, initTime: startTime});
       $refCache[ref] = false;
     } else {
       const referencedType = inferType(referenced);
@@ -69,7 +69,7 @@ export function traverse(schema, options, doc, context) {
       schema.allOf,
       options,
       doc,
-      {...context, initTime: start},
+      {...context, initTime: startTime},
     );
   }
 
@@ -78,16 +78,16 @@ export function traverse(schema, options, doc, context) {
       if (!options.quiet) console.warn('oneOf and anyOf are not supported on the same level. Skipping anyOf');
     }
     popSchemaStack(seenSchemasStack, context);
-    return traverse(schema.oneOf[0], options, doc, {...context, initTime: start});
+    return traverse(schema.oneOf[0], options, doc, {...context, initTime: startTime});
   }
 
   if (schema.anyOf && schema.anyOf.length) {
     popSchemaStack(seenSchemasStack, context);
-    return traverse(schema.anyOf[0], options, doc, {...context, initTime: start});
+    return traverse(schema.anyOf[0], options, doc, {...context, initTime: startTime});
   }
 
   if (schema.if && schema.then) {
-    return traverse(mergeDeep(schema.if, schema.then), options, doc, {...context, initTime: start});
+    return traverse(mergeDeep(schema.if, schema.then), options, doc, {...context, initTime: startTime});
   }
 
   let example = null;
@@ -110,7 +110,7 @@ export function traverse(schema, options, doc, context) {
     }
     let sampler = _samplers[type];
     if (sampler) {
-      example = sampler(schema, options, doc, {...context, initTime: start});
+      example = sampler(schema, options, doc, {...context, initTime: startTime});
     }
   }
 

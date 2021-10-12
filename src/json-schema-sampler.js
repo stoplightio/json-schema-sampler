@@ -6,7 +6,7 @@ export var _samplers = {};
 const defaults = {
   skipReadOnly: false,
   maxSampleDepth: 15,
-  timeout: 5000,
+  timeout: 1500,
 };
 
 export function sample(schema, options, doc = schema) {
