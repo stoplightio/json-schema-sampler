@@ -14,6 +14,12 @@ export function clearCache() {
 }
 
 export function traverse(schema, options, doc, context) {
+  const startTime = context.initTime;
+
+  if (Date.now() - startTime > options.timeout ) {
+    throw Error('Time limit exceeded for "traverse()" function call');
+  }
+
   if (seenSchemasStack.includes(schema))
     return getResultForCircular(inferType(schema));
   seenSchemasStack.push(schema);
@@ -36,7 +42,7 @@ export function traverse(schema, options, doc, context) {
 
     if ($refCache[ref] !== true) {
       $refCache[ref] = true;
-      result = traverse(referenced, options, doc, context);
+      result = traverse(referenced, options, doc, {...context, initTime: start});
       $refCache[ref] = false;
     } else {
       const referencedType = inferType(referenced);
@@ -63,7 +69,7 @@ export function traverse(schema, options, doc, context) {
       schema.allOf,
       options,
       doc,
-      context,
+      {...context, initTime: start},
     );
   }
 
@@ -72,16 +78,16 @@ export function traverse(schema, options, doc, context) {
       if (!options.quiet) console.warn('oneOf and anyOf are not supported on the same level. Skipping anyOf');
     }
     popSchemaStack(seenSchemasStack, context);
-    return traverse(schema.oneOf[0], options, doc, context);
+    return traverse(schema.oneOf[0], options, doc, {...context, initTime: start});
   }
 
   if (schema.anyOf && schema.anyOf.length) {
     popSchemaStack(seenSchemasStack, context);
-    return traverse(schema.anyOf[0], options, doc, context);
+    return traverse(schema.anyOf[0], options, doc, {...context, initTime: start});
   }
 
   if (schema.if && schema.then) {
-    return traverse(mergeDeep(schema.if, schema.then), options, doc, context);
+    return traverse(mergeDeep(schema.if, schema.then), options, doc, {...context, initTime: start});
   }
 
   let example = null;
@@ -104,7 +110,7 @@ export function traverse(schema, options, doc, context) {
     }
     let sampler = _samplers[type];
     if (sampler) {
-      example = sampler(schema, options, doc, context);
+      example = sampler(schema, options, doc, {...context, initTime: start});
     }
   }
 

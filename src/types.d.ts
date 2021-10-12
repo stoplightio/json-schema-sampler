@@ -6,6 +6,7 @@ export interface Options {
   readonly skipWriteOnly?: boolean;
   readonly quiet?: boolean;
   readonly maxSampleDepth?: number;
+  readonly timeout: number;
 }
 
 export function sample(schema: JSONSchema7, options?: Options, document?: object): unknown;

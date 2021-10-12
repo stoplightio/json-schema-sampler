@@ -6,12 +6,14 @@ export var _samplers = {};
 const defaults = {
   skipReadOnly: false,
   maxSampleDepth: 15,
+  timeout: 5000,
 };
 
 export function sample(schema, options, doc = schema) {
   let opts = Object.assign({}, defaults, options);
   clearCache();
-  return traverse(schema, opts, doc).value;
+  const startTime = Date.now();
+  return traverse(schema, opts, doc, { initTime: startTime }).value;
 };
 
 export function _registerSampler(type, sampler) {

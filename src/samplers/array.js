@@ -21,7 +21,7 @@ export function sampleArray(schema, options = {}, doc, context) {
 
   for (let i = 0; i < arrayLength; i++) {
     let itemSchema = itemSchemaGetter(i);
-    let { value: sample } = traverse(itemSchema, options, doc, {depth: depth + 1});
+    let { value: sample } = traverse(itemSchema, options, doc, {depth: depth + 1, initTime: context.initTime});
     res.push(sample);
   }
   return res;
