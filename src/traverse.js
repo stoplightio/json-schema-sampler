@@ -14,7 +14,7 @@ export function clearCache() {
 }
 
 export function traverse(schema, options, doc, context) {
-  options.ticks = options.ticks - 1;
+  options.ticks -= 1;
   
   if (options.ticks === 0) {
     throw Error('Schema size exceeded');
