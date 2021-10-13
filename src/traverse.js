@@ -14,6 +14,12 @@ export function clearCache() {
 }
 
 export function traverse(schema, options, doc, context) {
+  options.ticks -= 1;
+  
+  if (options.ticks === 0) {
+    throw Error('Schema size exceeded');
+  }
+
   if (seenSchemasStack.includes(schema))
     return getResultForCircular(inferType(schema));
   seenSchemasStack.push(schema);

@@ -5,6 +5,23 @@ describe('Integration', function() {
   var result;
   var expected;
 
+  it('Should throw error after specified number of "ticks"', () => {
+    schema = {
+      'type': 'object',
+      'properties': {
+        'nestedObject': {
+          'type': 'object',
+          'properties': {
+            'title': {
+              'type': 'string'
+            }
+          }
+        }
+      }
+    };
+    expect(() => JSONSchemaSampler.sample(schema, { ticks: 2 })).to.throw('Schema size exceeded');
+  });
+
   describe('Primitives', function() {
 
     it('should sample string', function() {
