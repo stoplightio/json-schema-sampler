@@ -2,7 +2,7 @@ import { traverse } from './traverse';
 import { mergeDeep } from './utils';
 
 export function allOfSample(into, children, options, doc, context) {
-  let res = traverse(into, options, doc, { initTime: context.initTime });
+  let res = traverse(into, options, doc);
   const subSamples = [];
 
   for (let subSchema of children) {

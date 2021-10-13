@@ -16,7 +16,7 @@ export function sampleObject(schema, options = {}, doc, context) {
         return;
       }
 
-      const sample = traverse(schema.properties[propertyName], options, doc, { propertyName, depth: depth + 1, initTime: context.initTime });
+      const sample = traverse(schema.properties[propertyName], options, doc, { propertyName, depth: depth + 1 });
       if (options.skipReadOnly && sample.readOnly) {
         return;
       }
@@ -29,8 +29,8 @@ export function sampleObject(schema, options = {}, doc, context) {
   }
 
   if (schema && typeof schema.additionalProperties === 'object') {
-    res.property1 = traverse(schema.additionalProperties, options, doc, {depth: depth + 1, initTime: context.initTime }).value;
-    res.property2 = traverse(schema.additionalProperties, options, doc, {depth: depth + 1, initTime: context.initTime }).value;
+    res.property1 = traverse(schema.additionalProperties, options, doc, {depth: depth + 1 }).value;
+    res.property2 = traverse(schema.additionalProperties, options, doc, {depth: depth + 1 }).value;
   }
   return res;
 }
