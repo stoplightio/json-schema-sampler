@@ -10,6 +10,7 @@ const defaults = {
 };
 
 export function sample(schema, options, doc = schema) {
+  defaults.startingTicks = defaults.ticks;
   let opts = Object.assign({}, defaults, options);
   clearCache();
   return traverse(schema, opts, doc).value;
