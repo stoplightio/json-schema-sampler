@@ -17,7 +17,7 @@ export function traverse(schema, options, doc, context) {
   options.ticks -= 1;
   
   if (options.ticks === 0) {
-    throw Error(`Schema size exceeded: depth over ${options.startingTicks} elements`);
+    throw Error(`Schema size exceeded: over ${options.startingTicks} elements`);
   }
 
   if (seenSchemasStack.includes(schema))
