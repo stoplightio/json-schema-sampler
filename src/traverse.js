@@ -17,7 +17,7 @@ export function traverse(schema, options, doc, context) {
   options.ticks -= 1;
   
   if (options.ticks === 0) {
-    throw Error('Schema size exceeded');
+    throw Error(`Schema size exceeded: over ${options.startingTicks} properties. For more info, visit https://docs.stoplight.io/docs/platform/zumkfdc16oypw-json-schema-editor#generate-examples`);
   }
 
   if (seenSchemasStack.includes(schema))
