@@ -13,11 +13,18 @@ export function clearCache() {
   seenSchemasStack = [];
 }
 
+export function SchemaSizeExceededError(message) {
+  Error.call(this, message);
+}
+
+SchemaSizeExceededError.prototype = Object.create(Error.prototype);
+SchemaSizeExceededError.prototype.constructor = SchemaSizeExceededError;
+
 export function traverse(schema, options, doc, context) {
   options.ticks -= 1;
-  
+
   if (options.ticks === 0) {
-    throw Error(`Schema size exceeded: over ${options.startingTicks} properties. For more info, visit https://docs.stoplight.io/docs/platform/zumkfdc16oypw-json-schema-editor#generate-examples`);
+    throw new SchemaSizeExceededError(`Schema size exceeded: over ${options.startingTicks} properties. For more info, visit https://docs.stoplight.io/docs/platform/zumkfdc16oypw-json-schema-editor#generate-examples`);
   }
 
   if (seenSchemasStack.includes(schema))

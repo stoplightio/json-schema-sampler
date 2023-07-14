@@ -1,6 +1,8 @@
 import { traverse, clearCache } from './traverse';
 import { sampleArray, sampleBoolean, sampleNumber, sampleObject, sampleString } from './samplers/index';
 
+export { SchemaSizeExceededError } from './traverse';
+
 export var _samplers = {};
 
 const defaults = {
